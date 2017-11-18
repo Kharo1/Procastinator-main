@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "937717169381",
+    "firebase_url": "https://procastinator-42b64.firebaseio.com",
+    "project_id": "procastinator-42b64",
+    "storage_bucket": "procastinator-42b64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:937717169381:android:b5e658fd80354a83",
+        "android_client_info": {
+          "package_name": "com.example.android.procastinator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "937717169381-5jtpaqm0eamhpo81lf6nqg33cbathlrr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.procastinator",
+            "certificate_hash": "de637ad5e2836b6c425bb10319620fde8a3315bd"
+          }
+        },
+        {
+          "client_id": "937717169381-ibck1c7gekarjmpan5gakikdb39k0404.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZyCu-WtR6kr6kKssNCYGnSxCGylGjLdk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "937717169381-ibck1c7gekarjmpan5gakikdb39k0404.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
