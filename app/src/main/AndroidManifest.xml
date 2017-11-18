@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".signuppage"></activity>
         <activity android:name=".mainpage"></activity>
+        <activity android:name=".activityTracker"></activity>
 
     </application>
 

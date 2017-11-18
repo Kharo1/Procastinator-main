@@ -4,25 +4,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
-import android.text.TextUtils;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -38,7 +30,9 @@ public class mainpage extends AppCompatActivity {
     private DatabaseReference ref;
     private String userID;
     TextView signOut,addName;
-    ArrayList<String> info = new ArrayList<>();
+    public static String username = " ";
+    public static String user_email = " ";
+    public static String user_phonenumber = " ";;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -63,6 +57,7 @@ public class mainpage extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                //retrieve user data
                 showData(dataSnapshot);
             }
 
@@ -72,9 +67,7 @@ public class mainpage extends AppCompatActivity {
             }
         });
 
-
-
-
+        //sign user out
         signOut.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -85,10 +78,10 @@ public class mainpage extends AppCompatActivity {
         });
 
 
-
     }
+
+    //save user data to User class
     private void showData(DataSnapshot dataSnapshot){
-        String username = " ";
         for(DataSnapshot ds: dataSnapshot.getChildren()){
             User user = new User();
             user.setUsername(ds.child(userID).getValue(User.class).getUsername());
@@ -99,13 +92,17 @@ public class mainpage extends AppCompatActivity {
             Log.d("OUTPUT", "showData: email: " + user.getEmail());
             Log.d("OUTPUT", "showData: phone_num: " + user.getPhoneNumber());
 
-            info.add(user.getUsername());
-            info.add(user.getEmail());
-            info.add(user.getPhoneNumber());
-
             username = user.getUsername();
+            user_email = user.getEmail();
+            user_phonenumber = user.getPhoneNumber();
         }
 
-        addName.setText(username);
+        addName.setText("Welcome, " + username);
+    }
+
+    //Send user to activity tracker intent
+    public void activityCard(View v){
+        startActivity(new Intent(mainpage.this, activityTracker.class));
+        finish();
     }
 }
