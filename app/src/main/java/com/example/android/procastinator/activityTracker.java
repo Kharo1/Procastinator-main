@@ -40,9 +40,17 @@ public class activityTracker extends AppCompatActivity{
 
         setContentView(R.layout.activitytracker);
 
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, AppUsageStatisticsFragment.newInstance())
+                    .commit();
+        }
+
         //set title bar
         addName = (TextView) findViewById(R.id.username);
         addName.setText(username + "'s Activity Statement");
+
+
 
     }
 
