@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
@@ -79,6 +80,11 @@ public class mainpage extends AppCompatActivity {
 
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.general_main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
     //save user data to User class
     private void showData(DataSnapshot dataSnapshot){
@@ -103,6 +109,12 @@ public class mainpage extends AppCompatActivity {
     //Send user to activity tracker intent
     public void activityCard(View v){
         startActivity(new Intent(mainpage.this, activityTracker.class));
+        finish();
+    }
+
+    //send user to to-do list
+    public void todoActivity(View v){
+        startActivity(new Intent(mainpage.this, list_Activity.class));
         finish();
     }
 }

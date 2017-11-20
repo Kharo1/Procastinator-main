@@ -14,14 +14,14 @@
         android:onClick="goBack"
         android:src="@drawable/arrow"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Username"
-        android:textColor="#000"
-        android:textSize="13sp"
-        android:id="@+id/username"
-        android:layout_gravity="center"/>
 
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:tint="#000000"
+        android:layout_gravity="right"
+        android:layout_marginRight="20dp"
+        android:id="@+id/action_add_task"
+        android:src="@drawable/plus"/>
 
 </android.support.v7.widget.Toolbar>

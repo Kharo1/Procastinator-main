@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
@@ -50,8 +51,11 @@ public class activityTracker extends AppCompatActivity{
         addName = (TextView) findViewById(R.id.username);
         addName.setText(username + "'s Activity Statement");
 
-
-
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.general_main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     //send user back to main page

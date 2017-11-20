@@ -95,6 +95,7 @@ public class signuppage extends AppCompatActivity{
                                     current_user_db.child("Users").child(user_id).child("email").setValue(email);
                                     current_user_db.child("Users").child(user_id).child("username").setValue(username);
                                     current_user_db.child("Users").child(user_id).child("phonenumber").setValue(phone);
+                                //    current_user_db.child("Users").child(user_id).child("TO DO");
 
                                     FirebaseAuth.AuthStateListener AuthListener = new FirebaseAuth.AuthStateListener(){
                                         @Override
