@@ -8,6 +8,7 @@ public class User {
     private String username;
     private String phonenumber;
     private String email;
+
     public User(){
 
     }
@@ -29,4 +30,5 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }
