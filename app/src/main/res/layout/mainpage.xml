@@ -61,7 +61,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Activity Blocker"
+                                    android:text="Study Zone"
                                     android:textColor="@color/colorGray"
                                     android:textSize="15dp"
                                     android:textStyle="bold" />
@@ -70,7 +70,7 @@
                                     android:layout_width="340dp"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="2dp"
-                                    android:text="Set Timer"
+                                    android:text="Set phone to Do Not Disturb"
                                     android:textColor="@color/colorLightGray"
                                     android:textSize="14dp" />
                             </LinearLayout>
@@ -121,7 +121,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="2dp"
-                                    android:text="Add/ remove to block list"
+                                    android:text="Add/remove sites to block list"
                                     android:textColor="@color/colorLightGray"
                                     android:textSize="14dp" />
                             </LinearLayout>
