@@ -1,6 +1,12 @@
 package com.example.android.procastinator;
 
+import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
@@ -30,10 +36,11 @@ public class mainpage extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference ref;
     private String userID;
-    TextView signOut,addName;
+    TextView signOut,addName,disturbText;
     public static String username = " ";
     public static String user_email = " ";
-    public static String user_phonenumber = " ";;
+    public static String user_phonenumber = " ";
+    public boolean disturb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -46,6 +53,7 @@ public class mainpage extends AppCompatActivity {
             finish();
         }
         setContentView(R.layout.mainpage);
+        disturb = false;
 
         signOut = (TextView) findViewById(R.id.signOut);
         addName = (TextView) findViewById(R.id.username);
@@ -116,5 +124,30 @@ public class mainpage extends AppCompatActivity {
     public void todoActivity(View v){
         startActivity(new Intent(mainpage.this, list_Activity.class));
         finish();
+    }
+    public void setDoNotDisturb(View v){
+        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if(disturb){
+            //set phone to turn off do not disturb
+            disturb = false;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL);
+                disturbText = (TextView) findViewById(R.id.disturbText);
+                disturbText.setText("Turn on Do Not Disturb");
+                disturbText.setTextColor(Color.parseColor("#a6abae"));
+            }
+
+        }else{
+            //set phone to do not disturb
+            disturb = true;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_NONE);
+                disturbText = (TextView) findViewById(R.id.disturbText);
+                disturbText.setText("DO NOT DISTURB IS ON");
+                disturbText.setTextColor(Color.parseColor("#009900"));
+            }
+        }
+
     }
 }

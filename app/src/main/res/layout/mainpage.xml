@@ -34,7 +34,8 @@
                     android:layout_height="80dp"
                     android:layout_marginTop="20dp"
                     card_view:cardCornerRadius="2dp"
-                    card_view:cardElevation="2dp">
+                    card_view:cardElevation="2dp"
+                    android:onClick="setDoNotDisturb">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -67,10 +68,11 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/disturbText"
                                     android:layout_width="340dp"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="2dp"
-                                    android:text="Set phone to Do Not Disturb"
+                                    android:text="Turn on Do Not Disturb"
                                     android:textColor="@color/colorLightGray"
                                     android:textSize="14dp" />
                             </LinearLayout>
