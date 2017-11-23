@@ -25,6 +25,7 @@
 
 
     <ImageView
+        android:onClick="imageClick"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:tint="#000000"
