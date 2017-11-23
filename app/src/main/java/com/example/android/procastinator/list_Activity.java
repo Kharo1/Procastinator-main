@@ -1,6 +1,8 @@
 package com.example.android.procastinator;
 
 import android.app.ActionBar;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +16,7 @@ import android.provider.DocumentsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -30,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,7 +49,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 
 import static com.example.android.procastinator.mainpage.username;
@@ -59,12 +65,19 @@ public class list_Activity extends AppCompatActivity {
     private FirebaseDatabase database;
     TextView addName;
     ImageView add_todo;
+    EditText input3, input4;
     private ListView mTaskListView;
     private ArrayAdapter mAdapter;
     String user_id,courseName,dueDate,taskName;
     DatabaseReference myRef;
     FirebaseUser currentUser;
     User user;
+    Context context = this;
+    Calendar myCalendar = Calendar.getInstance();
+    String dateFormat = "dd.MM.yyy";
+    DatePickerDialog.OnDateSetListener date;
+    SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.GERMAN);
+    SimpleDateFormat time = new SimpleDateFormat("h:mm a");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,47 +104,6 @@ public class list_Activity extends AppCompatActivity {
 
         mTaskListView = (ListView) findViewById(R.id.list);
 
-        //set to do functionality
-     /**   add_todo = (ImageView) findViewById(R.id.action_add_task);
-        add_todo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater factory = LayoutInflater.from(list_Activity.this);
-                //text_entry is an Layout XML file containing two text field to display in alert dialog
-                final View textEntryView = factory.inflate(R.layout.text_entry, null);
-
-                final EditText input1 = (EditText) textEntryView.findViewById(R.id.EditText1);
-                final EditText input2 = (EditText) textEntryView.findViewById(R.id.EditText2);
-                final EditText input3 = (EditText) textEntryView.findViewById(R.id.EditText3);
-
-
-                final AlertDialog.Builder alert = new AlertDialog.Builder(list_Activity.this);
-                alert.setTitle("Add TODO:").setView(textEntryView).setPositiveButton("Save",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-
-                                //  Log.i("AlertDialog","TextEntry 1 Entered "+input1.getText().toString());
-                                //   Log.i("AlertDialog","TextEntry 2 Entered "+input2.getText().toString());
-                                //  Log.i("AlertDialog","TextEntry 2 Entered "+input3.getText().toString());
-
-                                addTODO(input1.getText().toString(),input2.getText().toString(),input3.getText().toString());
-                                //updateUI();
-                                //save to database
-
-                            }
-                        }).setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                //close dialog
-
-                            }
-                        });
-                alert.show();
-            }
-        });**/
-
         updateUI();
 
     }
@@ -144,7 +116,6 @@ public class list_Activity extends AppCompatActivity {
 
     private void updateUI(){
         final ArrayList<User> userList = new ArrayList<>();
-        //final ArrayList<String> taskList = new ArrayList<>();
 
         //pull from database
         Query query = myRef.child("Users").child(user_id).child("TO DO");
@@ -169,7 +140,6 @@ public class list_Activity extends AppCompatActivity {
                          user.setTaskName(taskName);
 
                     }
-                  //  taskList.add(task);
                     // Log.i("AlertDialog","Due Date Entered "+ dueDate);
                     // Log.i("AlertDialog","Course Name Entered "+ courseName);
                     // Log.i("AlertDialog","Task Name Entered "+ taskName);
@@ -186,10 +156,6 @@ public class list_Activity extends AppCompatActivity {
 
 
         if (mAdapter == null) {
-          //   mAdapter = new ArrayAdapter<>(this,
-          //   R.layout.list_item,
-          //   R.id.task_title,
-          //   taskList);
             mTaskListView.setAdapter(mAdapter);
             mAdapter = new UserAdapter(this,R.layout.list_item, userList);
             mTaskListView.setAdapter(mAdapter);
@@ -209,10 +175,60 @@ public class list_Activity extends AppCompatActivity {
         //text_entry is an Layout XML file containing two text field to display in alert dialog
         final View textEntryView = factory.inflate(R.layout.text_entry, null);
 
+        //edit text in text_entry.xml
         final EditText input1 = (EditText) textEntryView.findViewById(R.id.EditText1);
         final EditText input2 = (EditText) textEntryView.findViewById(R.id.EditText2);
-        final EditText input3 = (EditText) textEntryView.findViewById(R.id.EditText3);
+        input3 = (EditText) textEntryView.findViewById(R.id.EditText3);
+        input4 = (EditText) textEntryView.findViewById(R.id.EditText4);
 
+        //set current date in app
+        long currentdate = System.currentTimeMillis();
+        String dateString = sdf.format(currentdate);
+        input3.setText(dateString);
+
+        //set current time in app
+        String currentTime = time.format(new Date());
+        input4.setText(currentTime);
+
+        //date picker pop up
+        date = new DatePickerDialog.OnDateSetListener(){
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, month);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateDate();
+            }
+        };
+        //date picked listener
+        input3.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(context, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+
+            }
+        });
+
+        input4.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(list_Activity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        input4.setText( selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+            }
+        });
 
         final AlertDialog.Builder alert = new AlertDialog.Builder(list_Activity.this);
         alert.setTitle("Add TODO:").setView(textEntryView).setPositiveButton("Save",
@@ -220,11 +236,7 @@ public class list_Activity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog,
                                         int whichButton) {
 
-                        //  Log.i("AlertDialog","TextEntry 1 Entered "+input1.getText().toString());
-                        //   Log.i("AlertDialog","TextEntry 2 Entered "+input2.getText().toString());
-                        //  Log.i("AlertDialog","TextEntry 2 Entered "+input3.getText().toString());
-
-                        addTODO(input1.getText().toString(),input2.getText().toString(),input3.getText().toString());
+                        addTODO(input1.getText().toString(),input2.getText().toString(),input3.getText().toString(),input4.getText().toString());
                         updateUI();
                         //save to database
 
@@ -234,7 +246,6 @@ public class list_Activity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog,
                                         int whichButton) {
                         //close dialog
-
                     }
                 });
         alert.show();
@@ -250,12 +261,13 @@ public class list_Activity extends AppCompatActivity {
         finish();
     }
 
-    public void addTODO(String item_name, String course_name, String due_date ){
+    public void addTODO(String item_name, String course_name, String due_date, String timeDue ){
         try{
             DatabaseReference db = FirebaseDatabase.getInstance().getReference();
             db.child("Users").child(user_id).child("TO DO").child(item_name).child("Task Name").setValue(item_name);
             db.child("Users").child(user_id).child("TO DO").child(item_name).child("Course Name").setValue(course_name);
             db.child("Users").child(user_id).child("TO DO").child(item_name).child("Due Date").setValue(due_date);
+            db.child("Users").child(user_id).child("TO DO").child(item_name).child("Time Due").setValue(timeDue);
 
         }catch(Exception e){
             e.printStackTrace();
@@ -286,6 +298,9 @@ public class list_Activity extends AppCompatActivity {
         });
 
         updateUI();
+    }
+    private void updateDate(){
+        input3.setText(sdf.format(myCalendar.getTime()));
     }
 
 }
