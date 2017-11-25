@@ -23,6 +23,9 @@
         <activity android:name=".mainpage"></activity>
         <activity android:name=".activityTracker"></activity>
         <activity android:name=".list_Activity"></activity>
+        <activity android:name=".website_blocker"></activity>
+        <activity android:name=".webview"></activity>
+        <activity android:name=".error"></activity>
 
     </application>
 

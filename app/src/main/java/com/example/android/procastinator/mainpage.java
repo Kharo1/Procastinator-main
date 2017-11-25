@@ -150,4 +150,9 @@ public class mainpage extends AppCompatActivity {
         }
 
     }
+    public void websiteBlocker(View v){
+        startActivity(new Intent(mainpage.this, website_blocker.class));
+        finish();
+
+    }
 }
